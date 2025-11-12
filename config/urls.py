@@ -23,6 +23,7 @@ urlpatterns = [
     #-----------------------app urls-----------------------
     path("api/accounts/", include("accounts.urls")),
     path('api/profiles/', include('profiles.urls')),
+    path('api/', include('jobs.urls')), # Including jobs app URLs
 
 
     #----------------swagger urls-----------------
