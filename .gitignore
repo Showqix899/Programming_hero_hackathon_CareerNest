@@ -9,4 +9,5 @@ __pycache__/
 venv/
 
 # environment variable file
-.env
+.env/
+db.sqlite3/
