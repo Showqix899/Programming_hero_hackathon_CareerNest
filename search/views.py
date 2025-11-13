@@ -42,45 +42,49 @@ class SearchView(APIView):
         }, status=status.HTTP_200_OK)
 
 
-
-#filter view
-class FilterView(APIView):
-    
-    permission_classes=[permissions.AllowAny]
+class JobFilterView(APIView):
+   
+    permission_classes = [permissions.AllowAny]
 
     def get(self, request):
-        data_type = request.query_params.get('type')  # "job" or "resource"
         skill = request.query_params.get('skill', '').lower()
         job_type = request.query_params.get('job_type')
         location = request.query_params.get('location')
+
+        queryset = Job.objects.all()
+
+        if skill:
+            queryset = queryset.filter(required_skills__icontains=skill)
+        if job_type:
+            queryset = queryset.filter(job_type__iexact=job_type)
+        if location:
+            queryset = queryset.filter(location__iexact=location)
+
+        serializer = JobSerializer(queryset, many=True)
+        return Response({
+            "filters": {"skill": skill, "job_type": job_type, "location": location},
+            "results": serializer.data
+        }, status=status.HTTP_200_OK)
+
+
+
+class ResourceFilterView(APIView):
+    
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        skill = request.query_params.get('skill', '').lower()
         cost = request.query_params.get('cost')
 
-        if data_type == 'job':
-            queryset = Job.objects.all()
+        queryset = LearningResource.objects.all()
 
-            if skill:
-                queryset = queryset.filter(required_skills__icontains=skill)
-            if job_type:
-                queryset = queryset.filter(job_type__iexact=job_type)
-            if location:
-                queryset = queryset.filter(location__iexact=location)
+        if skill:
+            queryset = queryset.filter(related_skills__icontains=skill)
+        if cost:
+            queryset = queryset.filter(cost__iexact=cost)
 
-            return Response({
-                "filtered_jobs": JobSerializer(queryset, many=True).data
-            }, status=status.HTTP_200_OK)
-
-        elif data_type == 'resource':
-            queryset = LearningResource.objects.all()
-
-            if skill:
-                queryset = queryset.filter(related_skills__icontains=skill)
-            if cost:
-                queryset = queryset.filter(cost__iexact=cost)
-
-            return Response({
-                "filtered_resources": LearningResourceSerializer(queryset, many=True).data
-            }, status=status.HTTP_200_OK)
-
-        else:
-            return Response({"detail": "Invalid or missing 'type' parameter (use ?type=job or ?type=resource)."},
-                            status=status.HTTP_400_BAD_REQUEST)
+        serializer = LearningResourceSerializer(queryset, many=True)
+        return Response({
+            "filters": {"skill": skill, "cost": cost},
+            "results": serializer.data
+        }, status=status.HTTP_200_OK)
