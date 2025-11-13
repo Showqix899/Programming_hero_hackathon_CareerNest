@@ -5,9 +5,9 @@ __pycache__/
 *.pyo
 *.pyd
 
-# virtual environment
+# Virtual environment
 venv/
 
-# environment variable file
-.env/
-db.sqlite3/
+# Environment & DB files
+.env
+db.sqlite3
