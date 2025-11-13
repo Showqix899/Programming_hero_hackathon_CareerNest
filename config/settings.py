@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'profiles',
     'jobs',
     'learning',
-    'recommendations'
+    'recommendations',
+    'search',
 ]
 
 

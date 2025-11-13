@@ -11,3 +11,5 @@ venv/
 # Environment & DB files
 .env
 db.sqlite3
+docker-compose.yml
+Dockerfile
