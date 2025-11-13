@@ -3,11 +3,16 @@
 echo "🔹 Activating virtual environment..."
 source venv/bin/activate
 
-
+echo "🔹 Installing dependencies..."
+pip install -r requirements.txt
 
 echo "🔹 Applying migrations..."
 python manage.py makemigrations
 python manage.py migrate
+
+echo "🔹 Seeding jobs and learning resources..."
+python manage.py seed_jobs
+python manage.py seed_learning_resources
 
 echo "🔹 Starting Redis server..."
 sudo service redis-server start
