@@ -25,6 +25,7 @@ urlpatterns = [
     path('api/profiles/', include('profiles.urls')),
     path('api/', include('jobs.urls')), # Including jobs app URLs
     path('api/', include('learning.urls')), # Including learning app URLs
+    path('api/', include('recommendations.urls')), # Including recommendations app URLs
 
 
     #----------------swagger urls-----------------
