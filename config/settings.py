@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-z#6yz4x%2lzn9fto(*m&gr&1#=ij0$8@29k3gn_8l_b7$kb263
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -49,8 +49,11 @@ INSTALLED_APPS = [
     'search',
     'skills_extractor',
     'intelligent_jog_recommender',
+    'careerbot',
+    'cv_assistant',
 ]
 
+ASGI_APPLICATION = "config.asgi.application"
 
 
 
@@ -159,14 +162,13 @@ REST_FRAMEWORK = {
     ),
 }
 
-
-
+CORS_ALLOW_ALL_ORIGINS = True
 # Simple JWT settings
 #simple jwt settings
 from datetime import timedelta
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
 }
@@ -189,4 +191,3 @@ CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
 
 
 GENAI_API_KEY = os.getenv("GENAI_API_KEY")
-print("GENAI API KEY:", GENAI_API_KEY)  # TEMP TE

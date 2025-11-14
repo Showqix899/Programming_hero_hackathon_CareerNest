@@ -4,7 +4,7 @@ from rest_framework import permissions,status
 from jobs.models import Job
 from profiles.models import UserProfile
 from skills_extractor.extractor import extract_all
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated,AllowAny
 from .ai_reasoning import get_ai_reason,get_ai_skill_gap,generate_career_roadmap
 from learning.models import LearningResource
 
@@ -168,8 +168,10 @@ class RoadmapGenerator(APIView):
             res = generate_career_roadmap(users_skills,users_interests)
 
             return Response(
-                {
-                    "msg":res
+                {   "user_skilss":users_skills,
+                    "user_interests":users_interests,
+                    "time_frame":time_frame,
+                    "msg":res,
                 }
             )
 

@@ -23,6 +23,8 @@ schema_view = get_schema_view(
 urlpatterns = [
 
     #-----------------------app urls-----------------------
+
+    
     path("api/accounts/", include("accounts.urls")),
     path('api/profiles/', include('profiles.urls')),
     path('api/', include('jobs.urls')), # Including jobs app URLs
@@ -31,6 +33,8 @@ urlpatterns = [
     path('api/', include('search.urls')), # Including search app URLs
     path('api/', include('skills_extractor.urls')),
     path('api/',include('intelligent_jog_recommender.urls')),
+    path('api/',include('careerbot.urls')),
+    path('api/',include('cv_assistant.urls')),
 
 
 
