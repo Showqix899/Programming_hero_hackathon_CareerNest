@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'learning',
     'recommendations',
     'search',
+    'skills_extractor',
 ]
 
 
