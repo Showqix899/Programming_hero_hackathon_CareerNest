@@ -22,7 +22,6 @@ class UserProfileView(APIView):
         try:
             profile = UserProfile.objects.get(user=request.user)
 
-            # Use pdfplumber to extract text
             text = ""
             pdf_path = profile.cv_pdf.path  # IMPORTANT
 
@@ -33,8 +32,9 @@ class UserProfileView(APIView):
                         text += page_text + "\n"
                     else:
                         text += "[NO TEXT FOUND ON PAGE]\n"
-
-            profile.pdf_text = text
+            new_text=text.lower()
+            profile.pdf_text = new_text
+            profile.pdf_text.lower()
             profile.email = request.user.email
             profile.save()
 
