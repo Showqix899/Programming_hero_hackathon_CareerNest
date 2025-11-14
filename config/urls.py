@@ -30,6 +30,7 @@ urlpatterns = [
     path('api/', include('recommendations.urls')), # Including recommendations app URLs
     path('api/', include('search.urls')), # Including search app URLs
     path('api/', include('skills_extractor.urls')),
+    path('api/',include('intelligent_jog_recommender.urls')),
 
 
 

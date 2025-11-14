@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'recommendations',
     'search',
     'skills_extractor',
+    'intelligent_jog_recommender',
 ]
 
 
@@ -186,3 +187,6 @@ CELERY_BROKER_URL = 'redis://redis:6379/0'
 
 CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
 
+
+GENAI_API_KEY = os.getenv("GENAI_API_KEY")
+print("GENAI API KEY:", GENAI_API_KEY)  # TEMP TE
