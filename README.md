@@ -58,4 +58,11 @@ Environment configuration:
 
 Seed Data Usage Instruction:
 *** It's included with docker-compose.yml and run.sh file. It's gonna execute automatically
+
+
+****************************************************
+Externals API >
+1. Huggingface LLM ->https://router.huggingface.co/v1/moonshotai/Kimi-K2-Instruct-0905/
+2. GenAI thinking model -> gemini-2.5-flash
+
  
