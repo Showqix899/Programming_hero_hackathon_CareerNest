@@ -92,7 +92,7 @@ def beautify(text: str) -> str:
     )
 
 
-def generate_career_roadmap(current_skills, target_role, time_frame="6 months"):
+def generate_career_roadmap(current_skills, target_role, time_frame="6 month"):
     """
     Generate a personalized career roadmap using Google Gemini.
     """

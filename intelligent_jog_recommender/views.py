@@ -165,7 +165,7 @@ class RoadmapGenerator(APIView):
             time_frame=serializer.validated_data['time_frame']
 
         
-            res = generate_career_roadmap(users_skills,users_interests)
+            res = generate_career_roadmap(users_skills,users_interests,time_frame)
 
             return Response(
                 {   "user_skilss":users_skills,

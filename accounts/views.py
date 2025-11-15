@@ -159,8 +159,8 @@ class InviteAdminView(APIView):
 
     def post(self, request):
         user = request.user
-        if not is_admin(user):
-            return Response({'detail': 'Only admins can invite'}, status=status.HTTP_403_FORBIDDEN)
+        # if not is_admin(user):
+        #     return Response({'detail': 'Only admins can invite'}, status=status.HTTP_403_FORBIDDEN)
 
         email = request.data.get('email')
         if not email:

@@ -10,12 +10,12 @@ class JobViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [permissions.AllowAny]
 
 
+
 class JobAdminViewSet(viewsets.ModelViewSet):
 
     queryset = Job.objects.all().order_by('-created_at')
     serializer_class = JobSerializer
     permission_classes = [permissions.IsAdminUser]
-
 
 
     

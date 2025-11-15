@@ -35,6 +35,7 @@ urlpatterns = [
     path('api/',include('intelligent_jog_recommender.urls')),
     path('api/',include('careerbot.urls')),
     path('api/',include('cv_assistant.urls')),
+    path('api/',include('admin_panel.urls')),
 
 
 
