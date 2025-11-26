@@ -23,7 +23,8 @@ class SearchView(APIView):
             Q(title__icontains=query) |
             Q(company__icontains=query) |
             Q(location__icontains=query) |
-            Q(required_skills__icontains=query)
+            Q(required_skills__icontains=query)|
+            Q(job_type__icontains=query)
         )
 
         # Search in Learning Resources

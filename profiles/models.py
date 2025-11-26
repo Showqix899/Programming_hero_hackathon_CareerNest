@@ -13,7 +13,7 @@ class UserProfile(models.Model):
     career_interests = models.CharField(max_length=500, blank=True, null=True)
     cv_text = models.TextField(blank=True, null=True)
     cv_pdf = models.FileField(upload_to='cv_pdfs/', blank=True, null=True)
-    pdf_text=models.TextField(null=True,blank=True)
+    pdf_text=models.JSONField(default=list,blank=True,null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

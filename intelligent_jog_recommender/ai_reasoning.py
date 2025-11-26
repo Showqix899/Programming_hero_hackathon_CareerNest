@@ -65,7 +65,7 @@ def get_ai_skill_gap(user_skills, job_title, missing_skills):
             model="google/gemma-2-2b-it:nebius",
             messages=[{"role": "user", "content": prompt}],
         )
-        return completion.choices[0].message
+        return completion.choices[0].message.content.strip()
     except Exception as e:
         return f"Could not generate AI suggestion: {str(e)}"
 

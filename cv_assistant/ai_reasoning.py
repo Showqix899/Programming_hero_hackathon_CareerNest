@@ -6,31 +6,46 @@ genai.configure(api_key=settings.GENAI_API_KEY)
 
 
 
+import json
+
 def generate_cv_assistant_output(pdf_text):
     """
-    Takes extracted CV text and generates:
-    - Professional summary
-    - Bullet points
-    - LinkedIn improvement suggestions
+    Generates:
+    - professional summary (20 words max)
+    - bullet points (max 5)
+    - LinkedIn suggestions (25 words max)
+    - CV layout (clean formatted text)
+    Returns pure JSON (no extra text).
     """
 
     prompt = f"""
-    The following text is extracted from a user's CV:
+You are an AI CV assistant.
+The following is a CV extracted text:
 
-    {pdf_text}
+{pdf_text}
 
-    Based on this CV:
+Generate a response ONLY in JSON format. Do NOT include markdown or extra explanation.
+The JSON MUST follow this exact structure:
 
-    1. Generate a strong, concise professional summary. maximum 20 words
-    2. Rewrite the user's experience into powerful, ATS-friendly bullet points. maximum 5 points
-    3. Suggest practical ways to improve the user's LinkedIn profile and portfolio. 25 words
-    4. Keep formatting clean and readable.
-    5. also generate a clean CV layout for the User
-    """
+{{
+  "professional_summary": "string, max 20 words",
+  "experience_points": ["max 5 bullet points"],
+  "linkedin_suggestions": "string, max 25 words",
+  "cv_layout": "formatted clean CV layout as plain text"
+}}
+
+Return ONLY valid JSON. No markdown. No explanation.
+"""
 
     try:
         model = genai.GenerativeModel("gemini-2.5-flash")
         response = model.generate_content(prompt)
-        return response.text
+
+        # In case AI still returns markdown ` ```json ` => clean it
+        raw = response.text.strip()
+        raw = raw.replace("```json", "").replace("```", "").strip()
+
+        return raw  # Now safe to parse with json.loads()
+    
     except Exception as e:
         return f"CV Assistant Error: {str(e)}"

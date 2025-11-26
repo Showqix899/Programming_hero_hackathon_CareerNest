@@ -19,43 +19,47 @@ class RecommendationsView(APIView):
     def get(self, request):
         email = request.user.email
         profile = UserProfile.objects.get(email=email)
-        user_skills = [s.strip().lower() for s in (profile.skills or "").split(',')]
-        user_interests = [i.strip().lower() for i in (profile.career_interests or "").split(',')]
-        user_exp = profile.experience or ""
+
+        # CLEAN SKILLS
+        user_skills = [
+            s.strip().lower() for s in (profile.skills or "").split(',')
+            if s.strip()
+        ]
+
+        if not user_skills:
+            return Response({"detail": "No skills found in your profile."}, status=400)
 
         recommended_jobs = []
 
         for job in Job.objects.all():
+
             job_skills_lower = [s.lower() for s in job.required_skills]
             overlap = list(set(user_skills) & set(job_skills_lower))
 
-            # Skip jobs with no skill overlap
+            # RETURN **ONLY SKILL MATCH JOBS**
             if not overlap:
                 continue
-
-            skill_score = len(overlap) / len(job.required_skills) if job.required_skills else 0
-            exp_score = 1 if job.experience_level.lower() in (user_exp.lower() or "") else 0
-            interest_score = 1 if any(interest in job.title.lower() for interest in user_interests) else 0
-
-            match_percentage = int((skill_score * 0.6 + exp_score * 0.2 + interest_score * 0.2) * 100)
-
-            ai_reason = get_ai_reason(user_skills, user_exp, user_interests, job)
 
             recommended_jobs.append({
                 "job_id": str(job.id),
                 "title": job.title,
                 "company": job.company,
-                "match_percentage": match_percentage,
-                "matched_skills": overlap,
-                "missing_skills": list(set(job.required_skills) - set(overlap)),
-                "ai_reason": ai_reason,
+                "matched_skills": overlap,    # ONLY MATCHED SKILLS
+                "missing_skills": list(set(job_skills_lower) - set(overlap)), # REMOVE extra display
                 "platforms": JOB_PLATFORMS
             })
 
-        # Sort by match_percentage
-        recommended_jobs.sort(key=lambda x: x["match_percentage"], reverse=True)
+        if not recommended_jobs:
+            return Response(
+                {"message": "No job matches your skills. Try improving your profile."},
+                status=200
+            )
+
+        # Sort (highest match first)
+        recommended_jobs.sort(key=lambda x: len(x["matched_skills"]), reverse=True)
 
         return Response({"recommended_jobs": recommended_jobs})
+
 
 
 
