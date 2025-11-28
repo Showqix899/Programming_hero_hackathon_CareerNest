@@ -7,7 +7,7 @@ from .serializers import UserAdminViewSeirailzers
 # Create your views here.
 from rest_framework import viewsets
 
-from rest_framework.permissions import IsAuthenticated,IsAdminUser
+from rest_framework.permissions import IsAuthenticated,IsAdminUser,AllowAny
 
 #user admin view
 class UserAdminViewSets(viewsets.ModelViewSet):
